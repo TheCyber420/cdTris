@@ -13,8 +13,7 @@ typedef unsigned char BYTE;
  *   Global Variables
  * =====================================================================
  */
-// BYTE piece_bag[] = {1, 2, 3, 4, 5, 6, 7};
-BYTE piece_bag[] = {4, 4, 4, 4, 4, 4, 4};
+BYTE piece_bag[] = {1, 2, 3, 4, 5, 6, 7};
 BYTE piece_number = 7;
 //The tetris game makes use of offset tables when rotating in order to be able to "kick" pieces (nudging them when rotating)
 //this is useful when rotating next to a wall or when you want to preform things like T-spins
