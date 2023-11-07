@@ -1,6 +1,16 @@
 # cdTris
 Tetris clone using c + raylib for visuals and input
 
+## Compiling and execution
+
+Install Raylib from https://www.raylib.com/
+
+```bash
+  cd src
+  make all
+  ../bin/cdTris
+```
+
 # The goal
 This project was done in order to get a basic graps of the Raylib library and to practice my c-code
 It was coded with readability and expandability in mind
