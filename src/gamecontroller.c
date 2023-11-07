@@ -43,7 +43,7 @@ void start_game(void)
 {
     bool running = 1;
     while (running) {                             //gameloop
-        draw_board(board, active_piece);
+        draw_board(board, active_piece, piece_next, held_piece);
         user_input();
         clock += GetFrameTime() * 1000;
         if (clock >= update_time) {

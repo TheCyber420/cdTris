@@ -7,8 +7,10 @@
  */
 #include "graphics.h"
 #include <stdio.h>
-#define WINDOW_WIDTH 400
-#define WINDOW_HEIGHT 880
+#define WINDOW_WIDTH 800              //enough for 2 * 10 (5-10-5)
+#define WINDOW_HEIGHT 880             //enough for 20 + 2 tiles
+#define BOARD_HEIGHT 22
+#define BOARD_WIDTH  10
 #define TILE_WIDTH 40
 /**
  * @name   init_window
@@ -26,20 +28,31 @@ void init_window(void)
  *         the board containing all the tiles to be drawn        
  */
 void draw_pieces(int board[]) {
-    for (int y = 0; y < 22; y++) {
-        for (int x = 0; x < 10; x++) {
+    int x_offset = TILE_WIDTH * (BOARD_WIDTH >> 1);
+    for (int y = 0; y < BOARD_HEIGHT; y++) {
+        for (int x = 0; x < BOARD_WIDTH; x++) {
+            DrawRectangle(x * TILE_WIDTH + x_offset, WINDOW_HEIGHT - (y + 1) * TILE_WIDTH, TILE_WIDTH * 0.95, TILE_WIDTH * 0.95, (Color) {20, 20, 20, 255});
             if (board[y * 10 + x] != 0) {
-                DrawRectangle(x * TILE_WIDTH, WINDOW_HEIGHT - (y + 1) * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, get_color(board[y * 10 + x], 255));
+                DrawRectangle(x * TILE_WIDTH + x_offset, WINDOW_HEIGHT - (y + 1) * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, get_color(board[y * 10 + x], 255));
             }
         }
     }
 }
 
+void draw_held_piece(Piece p)
+{   
+//     for (int i = 0; i < 4; i++) {
+//        DrawRectangle(500 + p.tiles[i].x * TILE_WIDTH, 200 + p.tiles[i].y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, get_color(p.piece_id, 255));
+//     }
+ }
+
 void draw_active_piece(Piece p, int board[])
 {   
     Piece gp = p;
-    while (move_piece(&gp, board, (Vector2) {0, -1}) != false);
     int x, y, gx, gy;
+    int x_offset = TILE_WIDTH * (BOARD_WIDTH >> 1);
+
+    while (move_piece(&gp, board, (Vector2) {0, -1}) != false);
 
     for (int i = 0; i < 4; i++) {
         x = p.position.x + p.tiles[i].x;
@@ -48,16 +61,32 @@ void draw_active_piece(Piece p, int board[])
         gx = gp.position.x + gp.tiles[i].x;
         gy = gp.position.y + gp.tiles[i].y;
 
-        DrawRectangle(gx * TILE_WIDTH, WINDOW_HEIGHT - (gy + 1) * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, get_color(gp.piece_id, 100));
-        DrawRectangle(x * TILE_WIDTH, WINDOW_HEIGHT - (y + 1) * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, get_color(p.piece_id, 255));
+        DrawRectangle(gx * TILE_WIDTH + x_offset, WINDOW_HEIGHT - (gy + 1) * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, get_color(gp.piece_id, 100));
+        DrawRectangle(x * TILE_WIDTH + x_offset, WINDOW_HEIGHT - (y + 1) * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, get_color(p.piece_id, 255));
     }
 }
+void draw_next_piece(Piece p)
+{   
+    int x, y;
+    DrawText("Next Piece", TILE_WIDTH * 16, TILE_WIDTH * 0.9, TILE_WIDTH >> 1, WHITE);
+    DrawRectangle(TILE_WIDTH * 15.5, TILE_WIDTH * 1.5, TILE_WIDTH * 4, TILE_WIDTH * 3, (Color) {50, 50, 50, 255});
+    for (int i = 0; i < 4; i++) {
+        x = TILE_WIDTH * 17 + p.tiles[i].x * TILE_WIDTH;
+        y = TILE_WIDTH * 2 + p.tiles[i].y * TILE_WIDTH;
+
+        if (p.piece_id == 1 || p.piece_id == 4) {
+            x -= TILE_WIDTH >> 1;
+        }
+        DrawRectangle(x, y, TILE_WIDTH, TILE_WIDTH, get_color(p.piece_id, 255));
+    }
+}
+
 /**
  * @brief   Assigns a custom color to a piece based off of what piece it is
- * 
+ *
  * @param id
- *          The piece id number 
- * @return Color 
+ *          The piece id number
+ * @return Color
  *          The custom color
  */
 Color get_color(BYTE id, int alpha)
@@ -82,11 +111,13 @@ Color get_color(BYTE id, int alpha)
     }
 }
 
-void draw_board(int board[], Piece active_piece) 
+void draw_board(int board[], Piece active_piece, Piece piece_next, Piece held_piece) 
 {
-        ClearBackground(DARKGRAY);
+        ClearBackground((Color) {30, 30, 30});
         BeginDrawing();
-        draw_active_piece(active_piece, board);
+        draw_held_piece(held_piece);
         draw_pieces(board);
+        draw_next_piece(piece_next);
+        draw_active_piece(active_piece, board);
         EndDrawing();
 }
