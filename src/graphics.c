@@ -41,9 +41,18 @@ void draw_pieces(int board[]) {
 
 void draw_held_piece(Piece p)
 {   
-//     for (int i = 0; i < 4; i++) {
-//        DrawRectangle(500 + p.tiles[i].x * TILE_WIDTH, 200 + p.tiles[i].y * TILE_WIDTH, TILE_WIDTH, TILE_WIDTH, get_color(p.piece_id, 255));
-//     }
+    int x, y;
+    DrawText("Held Piece", TILE_WIDTH, TILE_WIDTH * 0.9, TILE_WIDTH >> 1, WHITE);
+    DrawRectangle(TILE_WIDTH * 0.5, TILE_WIDTH * 1.5, TILE_WIDTH * 4, TILE_WIDTH * 3, (Color) {50, 50, 50, 255});
+    for (int i = 0; i < 4; i++) {
+        x = TILE_WIDTH * 2 + p.tiles[i].x * TILE_WIDTH;
+        y = TILE_WIDTH * 3 - p.tiles[i].y * TILE_WIDTH;
+
+        if (p.piece_id == 1 || p.piece_id == 4) {
+            x -= TILE_WIDTH >> 1;
+        }
+        DrawRectangle(x, y, TILE_WIDTH, TILE_WIDTH, get_color(p.piece_id, 255));
+    }
  }
 
 void draw_active_piece(Piece p, int board[])
@@ -72,7 +81,7 @@ void draw_next_piece(Piece p)
     DrawRectangle(TILE_WIDTH * 15.5, TILE_WIDTH * 1.5, TILE_WIDTH * 4, TILE_WIDTH * 3, (Color) {50, 50, 50, 255});
     for (int i = 0; i < 4; i++) {
         x = TILE_WIDTH * 17 + p.tiles[i].x * TILE_WIDTH;
-        y = TILE_WIDTH * 2 + p.tiles[i].y * TILE_WIDTH;
+        y = TILE_WIDTH * 3 - p.tiles[i].y * TILE_WIDTH;
 
         if (p.piece_id == 1 || p.piece_id == 4) {
             x -= TILE_WIDTH >> 1;
@@ -109,6 +118,8 @@ Color get_color(BYTE id, int alpha)
         default: return (Color) {0, 0, 0, 0};
             break;
     }
+    // int rand = GetRandomValue(0, 255);
+    // return (Color) {rand, rand, rand, GetRandomValue(0, 255)};
 }
 
 void draw_board(int board[], Piece active_piece, Piece piece_next, Piece held_piece) 

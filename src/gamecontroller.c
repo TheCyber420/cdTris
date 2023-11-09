@@ -52,6 +52,7 @@ void start_game(void)
                 add_piece_to_board();                                             //      and spawn a new one
                 remove_rows();
                 can_hold = true;
+                update_time *= 0.99;
             }
         }
     }
