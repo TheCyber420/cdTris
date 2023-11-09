@@ -4,12 +4,10 @@
  * 
  * @return  * int 
  */
-#include "gamecontroller.h"
+#include "main_menu.h"
 int main() {
     SetRandomSeed(52);
     SetTargetFPS(120);
-    init_controls();
-    init_game();
-    start_game();
+    start_main_menu();
     return 0;
 }

@@ -28,5 +28,5 @@ void init_game(void);
 void init_controls(void);
 void start_game(void);
 void user_input(void);
-void add_piece_to_board(void);
+bool add_piece_to_board(void);
 void remove_rows(void);

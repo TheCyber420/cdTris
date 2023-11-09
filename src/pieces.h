@@ -19,5 +19,6 @@ typedef struct Piece {
 bool move_piece(Piece *p, int board[], Vector2 dir);
 void rotate_piece(Piece *p, int board[], BYTE num_rotations);
 void get_piece(Piece* p, BYTE id);
+void init_bag(void);
 BYTE next_piece(void);
 BYTE shuffle_bag(void);

@@ -106,6 +106,11 @@ void rotate_piece(Piece *p, int board[], BYTE num_rotations)
         }
     }
 }
+void init_bag()
+{
+    shuffle_bag();
+    piece_number = 7;
+}
 /**
  * @brief         checks if the bag has pieces left, otherwise a new bag is generated
  * 

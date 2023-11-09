@@ -24,15 +24,15 @@ bool can_hold = true;
 void init_game(void)
 {
     //empty all the board squares
-    for (int i = 0; i < 200; i++) {
+    for (int i = 0; i < 220; i++) {
         board[i] = 0;
     }
     clock = 0;
     update_time = 1000;    //number of miliseconds before the gamestate updates 
     held_piece.piece_id = 0;
+    init_bag();
     get_piece(&active_piece, next_piece());
     get_piece(&piece_next, next_piece());
-    init_window();
 }
 /**
  * @brief   Starts the game once everything has been set up
@@ -49,7 +49,10 @@ void start_game(void)
         if (clock >= update_time) {
             clock = 0;
             if (move_piece(&active_piece, board, (Vector2) {0, -1}) == false) {   //if piece cannot go down, add it to the non-active pieces
-                add_piece_to_board();                                             //      and spawn a new one
+                if (!add_piece_to_board()) {                                        //and spawn a new one
+                    running = false;
+                    continue;
+                }         
                 remove_rows();
                 can_hold = true;
                 update_time *= 0.99;
@@ -79,7 +82,7 @@ void init_controls(void)
  * @brief       adds the active piece to the board of pieces and sets
  *              the next piece as the new active piece
  */
-void add_piece_to_board(void)
+bool add_piece_to_board(void)
 {
     int x, y;
     
@@ -90,11 +93,11 @@ void add_piece_to_board(void)
         board[y * 10 + x] = (BYTE)active_piece.piece_id;
     }
     if (y >= 20) {
-        printf("game lost :(\n");
-        exit(0);
+        return false;
     }
     active_piece = piece_next;
     get_piece(&piece_next, next_piece());
+    return true;
 }
 
 /**
