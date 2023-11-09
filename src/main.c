@@ -6,7 +6,6 @@
  */
 #include "main_menu.h"
 int main() {
-    SetRandomSeed(52);
     SetTargetFPS(120);
     start_main_menu();
     return 0;
