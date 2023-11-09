@@ -10,12 +10,17 @@
 #define BOARD_HEIGHT 22
 #define BOARD_WIDTH  10
 int board[BOARD_HEIGHT * BOARD_WIDTH];
-int das_timer;
-int das_delay;
+
+/* =====================================================================
+ *   Global Variables
+ * =====================================================================
+ */
+
+int das_timer, das_delay, score;
 double clock, update_time;
+bool can_hold = true;
 Piece active_piece, piece_next, held_piece;
 Controls input;
-bool can_hold = true;
 
 /**
  * @name    new_game
@@ -28,7 +33,8 @@ void init_game(void)
         board[i] = 0;
     }
     clock = 0;
-    update_time = 1000;    //number of miliseconds before the gamestate updates 
+    score = 0;
+    update_time = 1000;                                            //number of miliseconds before the gamestate updates 
     held_piece.piece_id = 0;
     init_bag();
     get_piece(&active_piece, next_piece());
@@ -43,7 +49,7 @@ void start_game(void)
 {
     bool running = 1;
     while (running) {                             //gameloop
-        draw_board(board, active_piece, piece_next, held_piece);
+        draw_board(board, active_piece, piece_next, held_piece, score);
         user_input();
         clock += GetFrameTime() * 1000;
         if (clock >= update_time) {
@@ -187,7 +193,8 @@ void remove_rows(void)
             y--;
         }
     }
+    score += row_counter * 100;
     if (row_counter == 4) {
-        printf("TETRIS!\n");
+        score += 400;
     }
 }

@@ -11,7 +11,7 @@ void start_main_menu(void)
     while (in_menu && !WindowShouldClose()) {
         BeginDrawing();
         ClearBackground(BLACK);
-        DrawRectangle(start_game_button.x, start_game_button.y, start_game_button.width, start_game_button.height, (Color) {255, 255, 255, 255});
+        draw_button(start_game_button);
         EndDrawing();
         if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && in_button_range(start_game_button)) {
             init_controls();
@@ -31,4 +31,9 @@ bool in_button_range(Button b)
 bool range(int n, int low, int high)
 {
     return (n >= low && n <= high) ? true : false;
+}
+
+void draw_button(Button b)
+{
+    DrawRectangle(b.x, b.y, b.width, b.height, (Color) {255, 255, 255, 255});
 }

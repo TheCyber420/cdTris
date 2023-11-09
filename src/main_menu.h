@@ -8,5 +8,6 @@ typedef struct buttons {
 } Button;
 
 void start_main_menu(void);
+void draw_button(Button b);
 bool in_button_range(Button b);
 bool range(int n, int low, int high);

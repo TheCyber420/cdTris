@@ -90,6 +90,14 @@ void draw_next_piece(Piece p)
     }
 }
 
+void display_score(int score)
+{
+    char out[20];
+
+    sprintf(out, "Score: %d", score);
+    DrawText(out, TILE_WIDTH * 16, TILE_WIDTH * 5, TILE_WIDTH >> 1, WHITE);
+}
+
 /**
  * @brief   Assigns a custom color to a piece based off of what piece it is
  *
@@ -122,7 +130,7 @@ Color get_color(BYTE id, int alpha)
     // return (Color) {rand, rand, rand, GetRandomValue(0, 255)};
 }
 
-void draw_board(int board[], Piece active_piece, Piece piece_next, Piece held_piece) 
+void draw_board(int board[], Piece active_piece, Piece piece_next, Piece held_piece, int score) 
 {
         ClearBackground((Color) {30, 30, 30});
         BeginDrawing();
@@ -130,5 +138,6 @@ void draw_board(int board[], Piece active_piece, Piece piece_next, Piece held_pi
         draw_pieces(board);
         draw_next_piece(piece_next);
         draw_active_piece(active_piece, board);
+        display_score(score);
         EndDrawing();
 }
